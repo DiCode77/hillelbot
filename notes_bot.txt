@@ -12,3 +12,13 @@
 - git як система контролю версій
 
 Для швидкого доступу до готового скелету, який вже використовує vcpkg та пару бібліотек, звертайтесь сюди: https://github.com/Oleksii-Kshenskyi/skeletons/tree/main/cpp_simple_cmake_vcpkg
+
+git log --oneline --decorate --graph --all -n
+^^^ git команда для того, щоб подивись на останні n комітів
+
+Бот буде зберігатися та розвиватися у Гітхабі за цією URL: 
+https://github.com/Oleksii-Kshenskyi/hillelbot
+
+Для того, щоб зклонувати собі репозиторій з ботом і працювати у себе локально (наприклад для домашки), треба виконати цю гіт команду:
+`git clone https://github.com/Oleksii-Kshenskyi/hillelbot.git`
+
