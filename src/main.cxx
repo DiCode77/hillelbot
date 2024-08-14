@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
+#include <cstdint>
 
 
 // - Побачити апдейти (кілька повідомлень), що прийшли до бота
@@ -24,7 +25,7 @@ int main() {
 
     // Виконати GET-запит до публічного API
     std::string base_url = (std::stringstream() << "http://api.telegram.org/" << secret).str();
-    cpr::Response r = cpr::Get(cpr::Url{ base_url, "/getUpdates?offset=137803079" });
+    cpr::Response r = cpr::Get(cpr::Url{ base_url, "/getUpdates?offset=137803083" });
     std::cout << "base url? => " << base_url << std::endl;
 
     // Вивести статус код відповіді
@@ -33,9 +34,14 @@ int main() {
     // Парсити JSON відповідь
     nlohmann::json jsonResponse = nlohmann::json::parse(r.text);
 
+    if(!jsonResponse["result"].size()) {
+        std::cout << "WARNING: there has been no updates on the bot. Not POSTing anything.\n";
+        return 0;
+    }
+
     // Вивести певне поле з JSON відповіді
     std::cout << "===JSON===\n" << std::setw(4) << jsonResponse << std::endl;
-    int chat_id = jsonResponse["result"][0]["message"]["chat"]["id"].get<int>();
+    int64_t chat_id = jsonResponse["result"][0]["message"]["chat"]["id"].get<int64_t>();
 
     cpr::Payload p {
         {"chat_id", std::to_string(chat_id)},
