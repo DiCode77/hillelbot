@@ -5,9 +5,8 @@
 #include <sstream>
 #include <cstdint>
 
-
-// - Побачити апдейти (кілька повідомлень), що прийшли до бота
-// - Спробувати відправити якесь базове повідомлення назад
+// Команда echo - команда, яка просто видає вам назад ту саму строку,
+// яку ви відіслали боту у команді.
 int main() {
     std::ifstream secret_file("secret.json");
     bool good = (secret_file.good() && secret_file.is_open());
@@ -25,8 +24,7 @@ int main() {
 
     // Виконати GET-запит до публічного API
     std::string base_url = (std::stringstream() << "http://api.telegram.org/" << secret).str();
-    cpr::Response r = cpr::Get(cpr::Url{ base_url, "/getUpdates?offset=137803083" });
-    std::cout << "base url? => " << base_url << std::endl;
+    cpr::Response r = cpr::Get(cpr::Url{ base_url, "/getUpdates?offset=137803087" });
 
     // Вивести статус код відповіді
     std::cout << "Status Code: " << r.status_code << std::endl;
@@ -39,24 +37,19 @@ int main() {
         return 0;
     }
 
-    // Вивести певне поле з JSON відповіді
-    std::cout << "===JSON===\n" << std::setw(4) << jsonResponse << std::endl;
-    int64_t chat_id = jsonResponse["result"][0]["message"]["chat"]["id"].get<int64_t>();
+    for (auto& user_message : jsonResponse["result"]) {
+        int64_t chat_id = user_message["message"]["chat"]["id"].get<int64_t>();
 
-    cpr::Payload p {
-        {"chat_id", std::to_string(chat_id)},
-        {"text", "HELLO IM BOT!!!1"}
-    };
+        cpr::Payload p{
+            {"chat_id", std::to_string(chat_id)},
+            {"text", "NEW BOT MESSAGE!!11"}
+        };
 
-    std::cout << "Chat ID? => " << chat_id << std::endl;
+        std::cout << "Chat ID? => " << chat_id << std::endl;
 
-    cpr::Response postR = cpr::Post(cpr::Url{ base_url, "/sendMessage" }, p);
-    std::cout << "Post Status Code? => " << postR.status_code << std::endl;;
-    // Парсити JSON відповідь
-    nlohmann::json postResponse = nlohmann::json::parse(postR.text);
+        cpr::Response postR = cpr::Post(cpr::Url{ base_url, "/sendMessage" }, p);
+        std::cout << "Post Status Code? => " << postR.status_code << std::endl;
+    }
 
-    // Вивести певне поле з JSON відповіді
-    std::cout << "===JSON===\n" << std::setw(4) << postResponse << std::endl;
- 
     return 0;
 }

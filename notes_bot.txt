@@ -55,3 +55,21 @@ vcpkg - кросплатформений менеджер пакетів для 
 vcpkg/vcpkg.exe integrate install - потрібно тільки якщо ви працюєте у Вінді під Віжуал Студією.
 
 Оператори у С++ (такі як +, -, *, /, (), [], оператори конвертації, деадресації і т.д.) можна перевантажувати. Це значить, що ви можете написати клас таким чином, щоб стандартні плюсові оператори працювали з вашими класами.
+
+ПЛАН НА ЗАНЯТТЯ (20.08.2024)
+
+=+ Figure out how to go through ALL the messages and respond to them, and not
+   just to the first one like it's done right now.
+=> Try to implement a command like /echo or /help.
+=> /help буде казати: "Available commands: [/echo, /help, ...]."
+
+Команда ехо:
+- [YOU] Hello Bot
+- [BOT] Hello Bot
+- [YOU] I'm NOT a bot!
+- [BOT] I'm NOT a bot!
+
+Синтаксис команди echo:
+- /echo Something something => Bot responds with "Something something"
+- /echo I am a student! => Bot responds with "I am a student!"
+- /echo => ""
