@@ -60,6 +60,7 @@ vcpkg/vcpkg.exe integrate install - потрібно тільки якщо ви 
 
 =+ Figure out how to go through ALL the messages and respond to them, and not
    just to the first one like it's done right now.
+=> Refactor the code just a little bit so everything is not just dumped into main.
 => Try to implement a command like /echo or /help.
 => /help буде казати: "Available commands: [/echo, /help, ...]."
 
