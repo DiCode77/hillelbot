@@ -4,16 +4,15 @@ cmake_minimum_required(VERSION 3.26)
 project(hillelbot)
 
 set(SRC "${CMAKE_SOURCE_DIR}/src")
-set(SRC_FILES ${SRC}/Secret.hxx
-              ${SRC}/config.hxx
-              ${SRC}/main.cxx
-              ${SRC}/Secret.cxx)
+file(GLOB_RECURSE SOURCES "${SRC}/*.cxx")
+file(GLOB_RECURSE HEADERS "${SRC}/*.hxx")
+
 include_directories(${SRC})
 
 find_package(nlohmann_json REQUIRED)
 find_package(cpr REQUIRED)
 
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20
                                                  CXX_STANDARD_REQUIRED ON)
 target_link_libraries(${PROJECT_NAME} PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
