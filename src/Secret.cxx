@@ -12,7 +12,14 @@ Secret::Secret(const std::string& filename) : filename(filename), secret(""), go
     nlohmann::json secret_json;
 
     secret_file >> secret_json;
-    secret = secret_json["key"].get<std::string>();
+    bool key_exists = (secret_json.find("key") != secret_json.end());
+    if (key_exists) {
+        secret = secret_json["key"].get<std::string>();
+    }
+    else {
+        good = false;
+    }
+    
     secret_file.close();
 }
 
