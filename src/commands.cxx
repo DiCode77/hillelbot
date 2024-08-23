@@ -16,29 +16,29 @@ std::string Hello::execute(std::string cmd) {
 
 
 
-std::unordered_map<std::string, AbstractCommand*> Commands::commands() {
-    std::unordered_map<std::string, AbstractCommand*> cmds = {
-        { "/echo ", new Echo() },
-        { "/hello", new Hello() },
+std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> Commands::commands() {
+    std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> cmds = {
+        { "/echo ", std::make_shared<Echo>() },
+        { "/hello", std::make_shared<Hello>() },
     };
     return cmds;
 }
 
-std::string* Commands::is_valid_command(const std::string& maybe_command) {
+std::string Commands::is_valid_command(const std::string& maybe_command) {
     for (auto& pair : commands()) {
         if (maybe_command.starts_with(pair.first)) {
-            return new std::string(pair.first);
+            return std::string(pair.first);
         }
     }
-    return nullptr;
+    return std::string();
 }
 
-AbstractCommand* Commands::get_command(const std::string maybe_command_name) {
-    std::string* command_name = is_valid_command(maybe_command_name);
-    if (command_name) {
-        return commands()[*command_name];
+std::shared_ptr<AbstractCommand> Commands::get_command(const std::string maybe_command_name) {
+    std::string command_name = is_valid_command(maybe_command_name);
+    if (!command_name.empty()) {
+        return std::move(commands()[command_name]);
     }
     else {
-        return new DoNothing();
+        return std::make_shared<DoNothing>();
     }
 }

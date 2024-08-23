@@ -6,8 +6,15 @@
 
 Secret::Secret(const std::string& filename) : filename(filename), secret(""), good(false) {
     std::ifstream secret_file(filename);
+    std::cout << "filename: " << filename << std::endl;
     good = (secret_file.good() && secret_file.is_open());
-    if (!good) { return; }
+    std::cout << "good => " << secret_file.good() << std::endl;
+    std::cout << "open => " << secret_file.is_open() << std::endl;
+    std::cout << "total => " << good << std::endl;
+    if (!good) {
+        std::cout << "not good?!" << std::endl;
+        return;
+    }
 
     nlohmann::json secret_json;
 

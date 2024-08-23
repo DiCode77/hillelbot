@@ -2,12 +2,14 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include <memory>
 
 
 
 class AbstractCommand {
 public:
     virtual std::string execute(std::string cmd) = 0;
+    virtual ~AbstractCommand() {};
 };
 
 class Echo : public AbstractCommand {
@@ -26,9 +28,9 @@ public:
 };
 
 namespace Commands {
-    std::unordered_map<std::string, AbstractCommand*> commands();
+    std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> commands();
 
-    std::string* is_valid_command(const std::string& maybe_command);
+    std::string is_valid_command(const std::string& maybe_command);
 
-    AbstractCommand* get_command(const std::string maybe_command_name);
+    std::shared_ptr<AbstractCommand> get_command(const std::string maybe_command_name);
 };
