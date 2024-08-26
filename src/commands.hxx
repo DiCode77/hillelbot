@@ -27,6 +27,11 @@ public:
     std::string execute(std::string cmd) override;
 };
 
+class Joke : public AbstractCommand {
+public:
+    std::string execute(std::string cmd) override;
+};
+
 namespace Commands {
     std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> commands();
 
