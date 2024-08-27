@@ -1,4 +1,4 @@
-﻿#include <commands.hxx>
+#include <commands.hxx>
 
 #include <vector>
 #include <random>
@@ -45,12 +45,44 @@ std::string Joke::execute(std::string cmd) {
     return jokes[generate_random_number(0, 9)];
 }
 
+std::string Add::execute(std::string cmd) {
+    std::string str;
+    
+    if (cmd.size() > std::string("/add ").size()){
+        cmd.erase(0, std::string("/add ").size());
+        
+        for (int i = 0; i < cmd.length(); i++) {
+            if (!((int(cmd[i]) >= 48 && 57 >= int(cmd[i])) || int(cmd[i]) == 32)){
+                str.clear();
+                
+                int64_t pos = cmd.rfind(" ", i);
+                for (int64_t j = (pos != -1) ? pos +1 : 0; j < cmd.length() && cmd[j] != 32; j++){
+                    str += cmd[j];
+                }
+                
+                str.append(" is not an integer number.");
+                break;
+            }
+            else{
+                str += cmd[i];
+            }
+        }
+
+    }
+    else{
+        return std::string("0");
+    }
+
+    return std::string(str);
+}
+
 
 std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> Commands::commands() {
     std::unordered_map<std::string, std::shared_ptr<AbstractCommand>> cmds = {
-        { "/echo ", std::make_shared<Echo>() },
+        { "/echo ", std::make_shared<Echo>()  },
         { "/hello", std::make_shared<Hello>() },
-        { "/joke", std::make_shared<Joke>()}
+        { "/joke",  std::make_shared<Joke>()  },
+        { "/add",   std::make_shared<Add>()  }
     };
     return cmds;
 }
