@@ -47,6 +47,7 @@ std::string Joke::execute(std::string cmd) {
 
 std::string Add::execute(std::string cmd) {
     std::string str;
+    int64_t max_num(0);
     
     if (cmd.size() > std::string("/add ").size()){
         cmd.erase(0, std::string("/add ").size());
@@ -64,7 +65,12 @@ std::string Add::execute(std::string cmd) {
                 break;
             }
             else{
-                str += cmd[i];
+                str.append((cmd[i] != ' ') ? std::string(1, cmd[i]) : "");
+                
+                if (cmd[i +1] == ' ' || cmd[i +1] == '\0'){
+                    max_num += std::atol(str.c_str());
+                    str.clear();
+                }
             }
         }
 
@@ -73,7 +79,7 @@ std::string Add::execute(std::string cmd) {
         return std::string("0");
     }
 
-    return std::string(str);
+    return std::string((str.length() == 0) ? std::to_string(max_num) : str);
 }
 
 
