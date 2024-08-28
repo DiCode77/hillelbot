@@ -55,13 +55,15 @@ std::string Add::execute(std::string cmd) {
         for (int i = 0; i < cmd.length(); i++) {
             if (!((int(cmd[i]) >= 48 && 57 >= int(cmd[i])) || int(cmd[i]) == 32)){
                 str.clear();
+                str = R"(")";
                 
                 int64_t pos = cmd.rfind(" ", i);
                 for (int64_t j = (pos != -1) ? pos +1 : 0; j < cmd.length() && cmd[j] != 32; j++){
                     str += cmd[j];
                 }
                 
-                str.append(" is not an integer number.");
+              //  str = R"(")";
+                str.append(R"( is not an integer number.")");
                 break;
             }
             else{
